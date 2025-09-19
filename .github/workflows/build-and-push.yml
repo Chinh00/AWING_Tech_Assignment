@@ -31,13 +31,13 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: /src/AWING_Tech_Assignment/Dockerfile
+          file: src/AWING_Tech_Assignment/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_AWING_TECH_ASSIGNMENT_API_SERVICE}}:latest
       - name: 🏗️ Build and push docker image web app
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: /src/Webs/find_treasure/Dockerfile
+          file: src/Webs/find_treasure/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_AWING_TECH_ASSIGNMENT_WEB_APP}}:latest
