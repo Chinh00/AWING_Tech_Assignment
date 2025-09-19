@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWING_Tech_Assignment", "src\AWING_Tech_Assignment\AWING_Tech_Assignment.csproj", "{143119A2-10CE-4509-A84F-03C9A79B7D92}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{143119A2-10CE-4509-A84F-03C9A79B7D92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143119A2-10CE-4509-A84F-03C9A79B7D92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{143119A2-10CE-4509-A84F-03C9A79B7D92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{143119A2-10CE-4509-A84F-03C9A79B7D92}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

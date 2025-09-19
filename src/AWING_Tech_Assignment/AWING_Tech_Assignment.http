@@ -1,0 +1,6 @@
+@AWING_Tech_Assignment_HostAddress = http://localhost:5296
+
+GET {{AWING_Tech_Assignment_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
