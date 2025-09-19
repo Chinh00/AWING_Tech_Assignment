@@ -4,14 +4,15 @@ import {formatDateTimeVi, type Pagination} from "./extensions.ts";
 import {
     Table, Button, TableBody, TablePagination, TableCell, TableContainer, TableHead, TableRow, Paper, TableFooter,
     Modal, Typography, Box,
-    TextField
+    TextField, IconButton, Tooltip
 } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import type {TreasureMapCreateModel} from "./treasure.service.ts";
 import {Controller, useForm} from "react-hook-form";
 import {toast} from "react-toastify";
-
+import {Eye} from "lucide-react"
+import type {Treasure} from "./treasure.model.ts";
 
 const TreasureList: React.FC = () => {
     const schema = yup.object({
@@ -78,6 +79,9 @@ const TreasureList: React.FC = () => {
             },
         })
     };
+
+    const [currentSelect, setCurrentSelect] = useState<Treasure | null>(null)
+    
     if (isLoading) return <div>Loading treasures...</div>;
     if (error) return <div>Error loading treasures.</div>;
   return (
@@ -163,6 +167,69 @@ const TreasureList: React.FC = () => {
                     </Box>
                 </Paper>
             </Modal>
+            <Modal open={!!currentSelect} onClose={() => setCurrentSelect(null)}>
+                <Paper sx={{  maxWidth: 600, margin: "auto", mt: 5, p: 4,
+                    width: '90%',
+                    mx: 'auto',
+                    borderRadius: 2,
+                    maxHeight: '80vh',       
+                    overflowY: 'auto',  }}>
+                    <Typography variant="h6" gutterBottom>
+                        View Treasure Map
+                    </Typography>
+                    <Box component="form" display="flex" flexDirection="column" gap={2}>
+                        <Typography variant="body1">ID: {currentSelect?.id}</Typography>
+                        <Typography variant="body1">Rows: {currentSelect?.rows}</Typography>
+                        <Typography variant="body1">Columns: {currentSelect?.columns}</Typography>
+                        <Typography variant="body1">ChestTypes: {currentSelect?.chestTypes}</Typography>
+                        <Box
+                            sx={{
+                                mt: 1,
+                                p: 1,
+                                border: '1px solid #ccc',
+                                borderRadius: 1,
+                                backgroundColor: '#f9f9f9',
+                                maxHeight: 300,       
+                                overflowY: 'auto',  
+                                fontFamily: 'monospace',
+                                fontSize: 14,
+                                whiteSpace: 'pre',  
+                            }}
+                        >
+                            {currentSelect?.matrixJson ? (
+                                <TableContainer
+                                    component={Paper}
+                                    sx={{ maxHeight: 300, overflowY: 'auto', mt: 1 }}
+                                >
+                                    <Table size="small" stickyHeader>
+                                        <TableBody>
+                                            {JSON.parse(currentSelect.matrixJson).map(
+                                                (row: number[], rowIndex: number) => (
+                                                    <TableRow key={rowIndex}>
+                                                        {row.map((cell, colIndex) => (
+                                                            <TableCell
+                                                                key={colIndex}
+                                                                align="center"
+                                                                sx={{ fontFamily: 'monospace', padding: '4px 8px' }}
+                                                            >
+                                                                {cell}
+                                                            </TableCell>
+                                                        ))}
+                                                    </TableRow>
+                                                )
+                                            )}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            ) : (
+                                <Typography>No matrix</Typography>
+                            )}
+
+                        </Box>
+                        
+                    </Box>
+                </Paper>
+            </Modal>
             <Table border={2}>
                 <TableHead>
                     
@@ -172,7 +239,8 @@ const TreasureList: React.FC = () => {
                         <TableCell>Columns</TableCell>
                         <TableCell>Chest Types</TableCell>
                         <TableCell align="right">Min Fuel</TableCell>
-                        <TableCell >Created At</TableCell>
+                        <TableCell>Created At</TableCell>
+                        <TableCell>Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -185,6 +253,14 @@ const TreasureList: React.FC = () => {
                             
                             <TableCell align="right">{treasure.minFuel}</TableCell>
                             <TableCell >{formatDateTimeVi(treasure.createdAt)}</TableCell>
+                            <TableCell >
+                                <Tooltip title={"View"}>
+                                    <IconButton size={"small"} onClick={() => setCurrentSelect(treasure)}>
+                                        <Eye />
+                                    </IconButton>
+                                </Tooltip>
+                            </TableCell>
+                        
                         </TableRow>
                     ))}
                 </TableBody>

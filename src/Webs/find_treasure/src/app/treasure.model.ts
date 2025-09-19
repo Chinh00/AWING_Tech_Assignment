@@ -3,7 +3,7 @@ export interface Treasure {
   rows: number;
   columns: number;
   chestTypes: number;
-  matrixJson: number[][];
+  matrixJson: string;
   minFuel: number;
   createdAt: string;
   
