@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import type {TreasureMapCreateModel} from "./treasure.service.ts";
 import {Controller, useForm} from "react-hook-form";
+import {toast} from "react-toastify";
 
 
 const TreasureList: React.FC = () => {
@@ -63,14 +64,14 @@ const TreasureList: React.FC = () => {
         };
         console.log("TreasureMapCreateModel:", model);
         mutate(model, {
-            onSuccess: (data: any) => {
-                alert("Form submitted! Check console.");
+            onSuccess: (_data: any) => {
+                toast.success("Create Treasure Map successfully")
                 reset();
                 setOpenCreateModal(false)
                 refetch()
             },
             onError: (error: any) => {
-                alert("Error submitting form: " + error.message);
+                toast.error(error.response.data.message)
                 reset();
                 setOpenCreateModal(false)
                 refetch()
@@ -92,7 +93,12 @@ const TreasureList: React.FC = () => {
                 Create Treasure Map
             </Button>
             <Modal open={openCreateModal} onClose={() => setOpenCreateModal(false)}>
-                <Paper sx={{ p: 3, maxWidth: 600, margin: "auto", mt: 5 }}>
+                <Paper sx={{  maxWidth: 600, margin: "auto", mt: 5, p: 4,
+                    width: '90%',
+                    mx: 'auto',
+                    borderRadius: 2,
+                    maxHeight: '80vh',       
+                    overflowY: 'auto',  }}>
                     <Typography variant="h6" gutterBottom>
                         Create Treasure Map
                     </Typography>
@@ -144,13 +150,14 @@ const TreasureList: React.FC = () => {
                                     label="Matrix (JSON)"
                                     multiline
                                     minRows={5}
+                                    maxRows={10}
                                     {...field}
                                     error={!!formState.errors.matrix}
                                     helperText={formState.errors.matrix?.message || 'Example: [[1,2,3],[2,1,3],[3,2,1]]'}
                                 />
                             )}
                         />
-                        <Button variant="contained" color="primary" type="submit">
+                        <Button loading={isPending} variant="contained" color="primary" type="submit">
                             Submit
                         </Button>
                     </Box>
