@@ -53,7 +53,7 @@ public class TreasureMapController(AppDbContext context) : ControllerBase
     public async Task<IActionResult> GetTreasuresAsync([FromQuery] TreasureMapQueryRequestModel requestModel)
     {
         var query = context.TreasureMaps.AsQueryable();
-        query = query.Skip((requestModel.Page - 1) * requestModel.PageSize).Take(requestModel.PageSize);
+        query = query.OrderBy(e => e.Id).Skip((requestModel.Page - 1) * requestModel.PageSize).Take(requestModel.PageSize);
         var totalCount = await context.TreasureMaps.CountAsync();
         var maps = await query.ToListAsync();
         var mapsWithPagination =
