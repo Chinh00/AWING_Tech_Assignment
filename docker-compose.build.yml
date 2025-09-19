@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./src/Webs/find_treasure/Dockerfile
+    ports:
+      - "5000:3000"
+  api:
+    build:
+      context: .
+      dockerfile: ./src/AWING_Tech_Assignment/Dockerfile
+      
