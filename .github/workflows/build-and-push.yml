@@ -34,6 +34,11 @@ jobs:
           file: src/AWING_Tech_Assignment/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_AWING_TECH_ASSIGNMENT_API_SERVICE}}:latest
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "VITE_API_URL=https://awing-assignment.tlu.my" >> src/Webs/find_treasure/.env.production
+          
       - name: 🏗️ Build and push docker image web app
         uses: docker/build-push-action@v5
         with:
