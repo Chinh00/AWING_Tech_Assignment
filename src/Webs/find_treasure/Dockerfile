@@ -7,13 +7,8 @@ RUN yarn install
 COPY src/Webs/find_treasure ./
 RUN yarn run build
 
-FROM node:lts-alpine as runner
-WORKDIR /app
-
-
-
+FROM nginx:alpine as prod
+EXPOSE 80
+COPY ../src/find_treasure/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-COPY src/Webs/find_treasure/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 3000
-CMD ["yarn", "start"]
+CMD ["nginx", "-g", "daemon off;"]
