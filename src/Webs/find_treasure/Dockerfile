@@ -9,6 +9,6 @@ RUN yarn run build
 
 FROM nginx:alpine as prod
 EXPOSE 80
-COPY ../src/find_treasure/nginx.conf /etc/nginx/nginx.conf
+COPY src/Webs/find_treasure/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
